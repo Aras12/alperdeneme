@@ -57,6 +57,21 @@ include 'includes/header.php';
     </button>
 </div>
 
+<!-- Intro Content Section -->
+<?php if(isset($settings['homepage_content']) && !empty($settings['homepage_content'])): ?>
+<section class="content-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="homepage-intro">
+                    <?= $settings['homepage_content'] ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
 <!-- Services Section -->
 <section class="content-section bg-light">
     <div class="container">

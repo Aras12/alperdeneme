@@ -39,8 +39,8 @@ include 'includes/header.php';
 <!-- Blog Post Content -->
 <section class="content-section">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
+        <div class="row">
+            <div class="col-lg-8">
                 <article class="blog-content">
                     <h1 class="section-title"><?= htmlspecialchars($post['title']) ?></h1>
 
@@ -59,37 +59,59 @@ include 'includes/header.php';
                         <?= $post['content'] ?>
                     </div>
                 </article>
+            </div>
 
-                <!-- Related Posts -->
+            <!-- Sidebar -->
+            <div class="col-lg-4">
+                <!-- Categories Widget -->
+                <div class="sidebar-widget">
+                    <h4><i class="fas fa-list"></i> Kategoriler</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="<?= BASE_URL ?>"><i class="fas fa-chevron-right"></i> Oto Çekici</a></li>
+                        <li><a href="<?= BASE_URL ?>"><i class="fas fa-chevron-right"></i> Yol Yardım</a></li>
+                        <li><a href="<?= BASE_URL ?>"><i class="fas fa-chevron-right"></i> Akü Takviye</a></li>
+                        <li><a href="<?= BASE_URL ?>"><i class="fas fa-chevron-right"></i> Lastik Değişimi</a></li>
+                    </ul>
+                </div>
+
+                <!-- Recent Posts Widget -->
                 <?php
-                $related_posts = $conn->query("SELECT * FROM blog_posts WHERE slug != '$slug' AND is_active=1 ORDER BY created_at DESC LIMIT 3");
-                if($related_posts->num_rows > 0):
+                $recent_posts = $conn->query("SELECT * FROM blog_posts WHERE slug != '$slug' AND is_active=1 ORDER BY created_at DESC LIMIT 5");
+                if($recent_posts->num_rows > 0):
                 ?>
-                <div class="related-posts mt-5">
-                    <h3 class="mb-4">İlgili Yazılar</h3>
-                    <div class="row g-4">
-                        <?php while($related = $related_posts->fetch_assoc()): ?>
-                        <div class="col-md-4">
-                            <div class="blog-card">
-                                <?php if($related['image']): ?>
-                                <img src="<?= htmlspecialchars($related['image']) ?>"
-                                     alt="<?= htmlspecialchars($related['title']) ?>"
-                                     class="img-fluid rounded mb-3">
+                <div class="sidebar-widget">
+                    <h4><i class="fas fa-newspaper"></i> Son Yazılar</h4>
+                    <ul class="list-unstyled">
+                        <?php while($recent = $recent_posts->fetch_assoc()): ?>
+                        <li class="mb-3">
+                            <a href="<?= BASE_URL ?>blog/<?= $recent['slug'] ?>" class="sidebar-post">
+                                <?php if($recent['image']): ?>
+                                <img src="<?= $recent['image'] ?>" alt="<?= htmlspecialchars($recent['title']) ?>">
                                 <?php endif; ?>
-                                <h5><?= htmlspecialchars($related['title']) ?></h5>
-                                <p class="text-muted small">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <?= date('d.m.Y', strtotime($related['created_at'])) ?>
-                                </p>
-                                <a href="<?= BASE_URL ?>blog/<?= $related['slug'] ?>" class="btn btn-outline-primary btn-sm">
-                                    Devamını Oku
-                                </a>
-                            </div>
-                        </div>
+                                <div class="sidebar-post-content">
+                                    <h6><?= htmlspecialchars($recent['title']) ?></h6>
+                                    <small class="text-muted">
+                                        <i class="fas fa-calendar"></i> <?= date('d.m.Y', strtotime($recent['created_at'])) ?>
+                                    </small>
+                                </div>
+                            </a>
+                        </li>
                         <?php endwhile; ?>
-                    </div>
+                    </ul>
                 </div>
                 <?php endif; ?>
+
+                <!-- Contact Widget -->
+                <div class="sidebar-widget sidebar-contact">
+                    <h4><i class="fas fa-phone-alt"></i> Bize Ulaşın</h4>
+                    <p>7/24 acil yol yardım hizmeti</p>
+                    <a href="tel:<?= $settings['phone'] ?>" class="btn btn-primary w-100 mb-2">
+                        <i class="fas fa-phone"></i> <?= $settings['phone'] ?>
+                    </a>
+                    <a href="https://wa.me/<?= $settings['whatsapp'] ?>" class="btn btn-success w-100" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
             </div>
         </div>
     </div>

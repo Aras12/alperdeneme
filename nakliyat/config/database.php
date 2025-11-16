@@ -16,13 +16,19 @@ if ($conn->connect_error) {
 // Set charset
 $conn->set_charset("utf8mb4");
 
-// Base URL Configuration
-define('BASE_URL', 'http://localhost/nakliyat/');
+// Auto-detect Base URL
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+$host = $_SERVER['HTTP_HOST'];
+$script_name = $_SERVER['SCRIPT_NAME'];
+$base_path = str_replace('\\', '/', dirname(dirname($script_name)));
+$base_path = $base_path === '/' ? '' : $base_path;
+
+define('BASE_URL', $protocol . '://' . $host . $base_path . '/');
 define('ADMIN_URL', BASE_URL . 'admin/');
 
-// Upload Directory
-define('UPLOAD_DIR', __DIR__ . '/../uploads/');
-define('UPLOAD_URL', BASE_URL . 'uploads/');
+// Upload Directory - Using img/ instead of uploads/
+define('UPLOAD_DIR', __DIR__ . '/../img/');
+define('UPLOAD_URL', BASE_URL . 'img/');
 
 // Session start
 if (session_status() === PHP_SESSION_NONE) {
@@ -61,10 +67,41 @@ function getSettings() {
     global $conn;
     $settings = [];
     $result = $conn->query("SELECT setting_key, setting_value FROM settings");
-    while ($row = $result->fetch_assoc()) {
-        $settings[$row['setting_key']] = $row['setting_value'];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $settings[$row['setting_key']] = $row['setting_value'];
+        }
     }
     return $settings;
+}
+
+// File upload helper
+function uploadImage($file, $prefix = 'img') {
+    if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
+        return false;
+    }
+
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $filename = $file['name'];
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+    if (!in_array($ext, $allowed)) {
+        return false;
+    }
+
+    // Create img directory if not exists
+    if (!is_dir(UPLOAD_DIR)) {
+        mkdir(UPLOAD_DIR, 0755, true);
+    }
+
+    $new_filename = $prefix . '_' . time() . '_' . uniqid() . '.' . $ext;
+    $destination = UPLOAD_DIR . $new_filename;
+
+    if (move_uploaded_file($file['tmp_name'], $destination)) {
+        return UPLOAD_URL . $new_filename;
+    }
+
+    return false;
 }
 
 $settings = getSettings();

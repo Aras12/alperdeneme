@@ -89,6 +89,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
 
+        <h6 class="border-bottom pb-2 mb-3 mt-4">Sayfa İçerikleri</h6>
+        <div class="mb-3">
+            <label class="form-label">Anasayfa İçeriği</label>
+            <textarea name="homepage_content" class="form-control summernote" rows="8"><?php echo $settings['homepage_content'] ?? ''; ?></textarea>
+            <small class="text-muted">Slider altında görünecek ana sayfa içeriği</small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Hakkımızda Sayfası İçeriği</label>
+            <textarea name="about_content" class="form-control summernote" rows="8"><?php echo $settings['about_content'] ?? ''; ?></textarea>
+            <small class="text-muted">Hakkımızda sayfasında görünecek içerik</small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">İletişim Sayfası Ek Bilgi</label>
+            <textarea name="contact_info" class="form-control summernote" rows="5"><?php echo $settings['contact_info'] ?? ''; ?></textarea>
+            <small class="text-muted">İletişim sayfasında ek bilgi alanı (isteğe bağlı)</small>
+        </div>
+
         <h6 class="border-bottom pb-2 mb-3 mt-4">SEO Ayarları</h6>
         <div class="mb-3">
             <label class="form-label">Meta Keywords</label>
@@ -107,5 +126,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </button>
     </form>
 </div>
+
+<script>
+$(document).ready(function() {
+    $('.summernote').summernote({
+        height: 200,
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+});
+</script>
 
 <?php include 'includes/footer.php'; ?>
