@@ -13,12 +13,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $slug = sanitize($_POST['slug']);
     $excerpt = sanitize($_POST['excerpt']);
     $content = $_POST['content'];
-    $image = sanitize($_POST['image']);
     $meta_title = sanitize($_POST['meta_title']);
     $meta_description = sanitize($_POST['meta_description']);
     $meta_keywords = sanitize($_POST['meta_keywords']);
     $canonical_url = sanitize($_POST['canonical_url']);
     $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+    // Handle image upload
+    $image = sanitize($_POST['image_url']);
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded = uploadImage($_FILES['image_file'], 'blog');
+        if ($uploaded) {
+            $image = $uploaded;
+        }
+    }
 
     if ($id > 0) {
         $sql = "UPDATE blog_posts SET title='$title', slug='$slug', excerpt='$excerpt', content='$content', image='$image', meta_title='$meta_title', meta_description='$meta_description', meta_keywords='$meta_keywords', canonical_url='$canonical_url', is_active=$is_active WHERE id=$id";
@@ -37,7 +45,7 @@ if ($edit_data || isset($_GET['new'])):
 ?>
 <div class="content-card">
     <h5 class="mb-4"><i class="fas fa-<?php echo $edit_data ? 'edit' : 'plus'; ?> me-2"></i><?php echo $edit_data ? 'Blog Düzenle' : 'Yeni Blog'; ?></h5>
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
         <?php if ($edit_data): ?><input type="hidden" name="id" value="<?php echo $edit_data['id']; ?>"><?php endif; ?>
         <div class="row">
             <div class="col-md-6 mb-3"><label>Başlık *</label><input type="text" name="title" class="form-control" value="<?php echo $edit_data['title'] ?? ''; ?>" required></div>
@@ -45,7 +53,16 @@ if ($edit_data || isset($_GET['new'])):
         </div>
         <div class="mb-3"><label>Özet</label><textarea name="excerpt" class="form-control" rows="2"><?php echo $edit_data['excerpt'] ?? ''; ?></textarea></div>
         <div class="mb-3"><label>İçerik *</label><textarea name="content" class="form-control summernote"><?php echo $edit_data['content'] ?? ''; ?></textarea></div>
-        <div class="mb-3"><label>Görsel URL</label><input type="url" name="image" class="form-control" value="<?php echo $edit_data['image'] ?? ''; ?>"></div>
+        <div class="mb-3">
+            <label>Görsel</label>
+            <?php if ($edit_data && $edit_data['image']): ?>
+            <div class="mb-2">
+                <img src="<?php echo $edit_data['image']; ?>" alt="Mevcut Görsel" style="max-width: 200px; max-height: 150px; object-fit: cover;" class="img-thumbnail">
+            </div>
+            <?php endif; ?>
+            <input type="file" name="image_file" class="form-control mb-2" accept="image/*">
+            <input type="url" name="image_url" class="form-control" placeholder="veya harici URL girin" value="<?php echo $edit_data['image'] ?? ''; ?>">
+        </div>
         <hr><h6>SEO Ayarları</h6>
         <div class="mb-3"><label>Meta Başlık</label><input type="text" name="meta_title" class="form-control" value="<?php echo $edit_data['meta_title'] ?? ''; ?>"></div>
         <div class="mb-3"><label>Meta Açıklama</label><textarea name="meta_description" class="form-control" rows="2"><?php echo $edit_data['meta_description'] ?? ''; ?></textarea></div>

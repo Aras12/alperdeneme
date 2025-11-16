@@ -16,13 +16,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $short_description = sanitize($_POST['short_description']);
     $content = $_POST['content'];
     $icon = sanitize($_POST['icon']);
-    $image = sanitize($_POST['image']);
     $meta_title = sanitize($_POST['meta_title']);
     $meta_description = sanitize($_POST['meta_description']);
     $meta_keywords = sanitize($_POST['meta_keywords']);
     $canonical_url = sanitize($_POST['canonical_url']);
     $display_order = (int)$_POST['display_order'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+    // Handle image upload
+    $image = sanitize($_POST['image_url']);
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded = uploadImage($_FILES['image_file'], 'service');
+        if ($uploaded) {
+            $image = $uploaded;
+        }
+    }
 
     if ($id > 0) {
         $sql = "UPDATE services SET title='$title', slug='$slug', short_description='$short_description',
@@ -56,7 +64,7 @@ if ($edit_data || isset($_GET['new'])):
         <i class="fas fa-<?php echo $edit_data ? 'edit' : 'plus'; ?> me-2"></i>
         <?php echo $edit_data ? 'Hizmet Düzenle' : 'Yeni Hizmet Ekle'; ?>
     </h5>
-    <form method="POST" action="">
+    <form method="POST" action="" enctype="multipart/form-data">
         <?php if ($edit_data): ?>
             <input type="hidden" name="id" value="<?php echo $edit_data['id']; ?>">
         <?php endif; ?>
@@ -98,8 +106,14 @@ if ($edit_data || isset($_GET['new'])):
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <label class="form-label">Görsel URL</label>
-                    <input type="url" name="image" class="form-control"
+                    <label class="form-label">Görsel</label>
+                    <?php if ($edit_data && $edit_data['image']): ?>
+                    <div class="mb-2">
+                        <img src="<?php echo $edit_data['image']; ?>" alt="Mevcut Görsel" style="max-width: 150px; max-height: 100px; object-fit: cover;" class="img-thumbnail">
+                    </div>
+                    <?php endif; ?>
+                    <input type="file" name="image_file" class="form-control mb-2" accept="image/*">
+                    <input type="url" name="image_url" class="form-control" placeholder="veya harici URL"
                            value="<?php echo $edit_data['image'] ?? ''; ?>">
                 </div>
             </div>

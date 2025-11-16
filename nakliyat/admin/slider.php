@@ -13,11 +13,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $title = sanitize($_POST['title']);
     $description = sanitize($_POST['description']);
-    $image = sanitize($_POST['image']);
     $button_text = sanitize($_POST['button_text']);
     $button_link = sanitize($_POST['button_link']);
     $display_order = (int)$_POST['display_order'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
+
+    // Handle image upload
+    $image = sanitize($_POST['image_url']); // Existing or URL
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded = uploadImage($_FILES['image_file'], 'slider');
+        if ($uploaded) {
+            $image = $uploaded;
+        }
+    }
 
     if ($id > 0) {
         // Update
@@ -52,7 +60,7 @@ $sliders = $conn->query("SELECT * FROM sliders ORDER BY display_order ASC");
             <h5 class="mb-4">
                 <?php echo $edit_data ? '<i class="fas fa-edit me-2"></i>Slider Düzenle' : '<i class="fas fa-plus me-2"></i>Yeni Slider Ekle'; ?>
             </h5>
-            <form method="POST" action="">
+            <form method="POST" action="" enctype="multipart/form-data">
                 <?php if ($edit_data): ?>
                     <input type="hidden" name="id" value="<?php echo $edit_data['id']; ?>">
                 <?php endif; ?>
@@ -69,10 +77,17 @@ $sliders = $conn->query("SELECT * FROM sliders ORDER BY display_order ASC");
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Görsel URL *</label>
-                    <input type="url" name="image" class="form-control"
-                           value="<?php echo $edit_data['image'] ?? ''; ?>" required>
-                    <small class="text-muted">Unsplash veya harici URL kullanabilirsiniz</small>
+                    <label class="form-label">Görsel</label>
+                    <?php if ($edit_data && $edit_data['image']): ?>
+                    <div class="mb-2">
+                        <img src="<?php echo $edit_data['image']; ?>" alt="Mevcut Görsel" style="max-width: 200px; max-height: 100px; object-fit: cover;" class="img-thumbnail">
+                    </div>
+                    <?php endif; ?>
+                    <input type="file" name="image_file" class="form-control mb-2" accept="image/*">
+                    <small class="text-muted d-block mb-2">Bilgisayarınızdan resim yükleyin (JPG, PNG, GIF, WEBP)</small>
+                    <input type="url" name="image_url" class="form-control" placeholder="veya harici URL girin"
+                           value="<?php echo $edit_data['image'] ?? ''; ?>">
+                    <small class="text-muted">Ya dosya yükleyin ya da URL girin</small>
                 </div>
 
                 <div class="mb-3">
