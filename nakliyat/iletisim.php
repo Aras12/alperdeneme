@@ -44,6 +44,12 @@ include 'includes/header.php';
     <div class="container">
         <h1 class="section-title text-center">İletişim</h1>
 
+        <?php if(isset($settings['contact_info']) && !empty($settings['contact_info'])): ?>
+            <div class="mb-4">
+                <?= $settings['contact_info'] ?>
+            </div>
+        <?php endif; ?>
+
         <div class="row g-4">
             <div class="col-md-3">
                 <div class="feature-box text-center">

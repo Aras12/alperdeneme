@@ -30,6 +30,11 @@ include 'includes/header.php';
     <div class="container">
         <h1 class="section-title text-center">Hakkımızda</h1>
 
+        <?php if(isset($settings['about_content']) && !empty($settings['about_content'])): ?>
+            <div class="about-content">
+                <?= $settings['about_content'] ?>
+            </div>
+        <?php else: ?>
         <div class="row align-items-center mb-5">
             <div class="col-lg-6">
                 <img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800"
@@ -43,6 +48,7 @@ include 'includes/header.php';
                 <p>Modern araç filomuz ve deneyimli ekibimizle, her türlü araç çekme ve yol yardım ihtiyacınızda yanınızdayız.</p>
             </div>
         </div>
+        <?php endif; ?>
 
         <div class="row g-4 mb-5">
             <div class="col-md-3">
