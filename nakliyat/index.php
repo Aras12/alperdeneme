@@ -1,10 +1,13 @@
 <?php
 require_once 'config/database.php';
 
+// Set page meta data
 $page_meta = [
     'title' => 'Adana Oto Çekici | 7/24 Çekici Hizmeti | Acil Yol Yardım',
     'description' => 'Adana\'da 7/24 oto çekici hizmeti. Hızlı, güvenilir ve uygun fiyatlı acil yol yardım.'
 ];
+
+$active_page = 'home';
 
 // Fetch data
 $sliders = $conn->query("SELECT * FROM sliders WHERE is_active=1 ORDER BY display_order ASC");
@@ -13,66 +16,10 @@ $blogs = $conn->query("SELECT * FROM blog_posts WHERE is_active=1 ORDER BY creat
 $faqs = $conn->query("SELECT * FROM faqs WHERE is_active=1 ORDER BY display_order ASC");
 $testimonials = $conn->query("SELECT * FROM testimonials WHERE is_active=1 ORDER BY display_order ASC");
 $tabs = $conn->query("SELECT * FROM tabs WHERE is_active=1 ORDER BY display_order ASC");
-?>
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $page_meta['title'] ?></title>
-    <meta name="description" content="<?= $page_meta['description'] ?>">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="<?= BASE_URL ?>styles.css">
-</head>
-<body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-    <div class="container">
-        <a class="navbar-brand" href="<?= BASE_URL ?>">
-            <i class="fas fa-truck-pickup"></i> Adana Oto Çekici
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="<?= BASE_URL ?>">Ana Sayfa</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        Hizmetlerimiz
-                    </a>
-                    <ul class="dropdown-menu">
-                        <?php
-                        $nav_services = $conn->query("SELECT * FROM services WHERE is_active=1");
-                        while($nav_svc = $nav_services->fetch_assoc()):
-                        ?>
-                        <li>
-                            <a class="dropdown-item" href="<?= BASE_URL ?>hizmet/<?= $nav_svc['slug'] ?>">
-                                <?= htmlspecialchars($nav_svc['title']) ?>
-                            </a>
-                        </li>
-                        <?php endwhile; ?>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= BASE_URL ?>hakkimizda">Hakkımızda</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= BASE_URL ?>iletisim">İletişim</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="tel:<?= $settings['phone'] ?>">
-                        <i class="fas fa-phone"></i> <?= $settings['phone'] ?>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+// Include header
+include 'includes/header.php';
+?>
 
 <!-- Hero Slider -->
 <div id="heroSlider" class="carousel slide" data-bs-ride="carousel">
@@ -284,69 +231,4 @@ $tabs = $conn->query("SELECT * FROM tabs WHERE is_active=1 ORDER BY display_orde
     </div>
 </section>
 
-<!-- Sticky Buttons -->
-<div class="sticky-buttons">
-    <a href="https://wa.me/<?= $settings['whatsapp'] ?>" class="sticky-btn whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    <a href="tel:<?= $settings['phone'] ?>" class="sticky-btn phone-btn">
-        <i class="fas fa-phone-alt"></i>
-    </a>
-    <a href="#" class="back-to-top">
-        <i class="fas fa-arrow-up"></i>
-    </a>
-</div>
-
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <h5><?= $settings['site_title'] ?></h5>
-                <p><?= $settings['site_description'] ?></p>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <h5>Hızlı Linkler</h5>
-                <ul class="list-unstyled">
-                    <li><a href="<?= BASE_URL ?>">Ana Sayfa</a></li>
-                    <li><a href="<?= BASE_URL ?>hakkimizda">Hakkımızda</a></li>
-                    <li><a href="<?= BASE_URL ?>iletisim">İletişim</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <h5>İletişim</h5>
-                <ul class="list-unstyled">
-                    <li>
-                        <i class="fas fa-phone"></i>
-                        <a href="tel:<?= $settings['phone'] ?>"><?= $settings['phone'] ?></a>
-                    </li>
-                    <li>
-                        <i class="fas fa-map-marker-alt"></i>
-                        <?= $settings['address'] ?>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// Back to top button
-document.querySelector('.back-to-top')?.addEventListener('click', function(e) {
-    e.preventDefault();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-});
-
-// Show/hide back to top button
-window.addEventListener('scroll', function() {
-    const backToTop = document.querySelector('.back-to-top');
-    if (window.pageYOffset > 300) {
-        backToTop?.classList.add('show');
-    } else {
-        backToTop?.classList.remove('show');
-    }
-});
-</script>
-</body>
-</html>
+<?php include 'includes/footer.php'; ?>
