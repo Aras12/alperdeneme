@@ -11,7 +11,7 @@ if (!$post) { header("Location: index.php"); exit; }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="styles.css"></head><body>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top"><div class="container">
-<a class="navbar-brand" href="index.php"><i class="fas fa-truck-pickup"></i> Adana Oto Çekici</a></div></nav>
+<a class="navbar-brand" href="/"><i class="fas fa-truck-pickup"></i> Adana Oto Çekici</a></div></nav>
 <section class="content-section"><div class="container"><div class="row justify-content-center"><div class="col-lg-10">
 <article class="blog-content"><h1 class="section-title"><?=$post['title']?></h1>
 <p class="text-muted mb-4"><i class="fas fa-calendar-alt"></i> <?=date('d.m.Y', strtotime($post['created_at']))?></p>

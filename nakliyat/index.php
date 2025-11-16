@@ -14,16 +14,16 @@ $tabs = $conn->query("SELECT * FROM tabs WHERE is_active=1 ORDER BY display_orde
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="styles.css"></head><body>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top"><div class="container">
-<a class="navbar-brand" href="index.php"><i class="fas fa-truck-pickup"></i> Adana Oto Çekici</a>
+<a class="navbar-brand" href="/"><i class="fas fa-truck-pickup"></i> Adana Oto Çekici</a>
 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
 <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto">
-<li class="nav-item"><a class="nav-link active" href="index.php">Ana Sayfa</a></li>
+<li class="nav-item"><a class="nav-link active" href="/">Ana Sayfa</a></li>
 <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Hizmetlerimiz</a>
 <ul class="dropdown-menu"><?php $svcs=$conn->query("SELECT * FROM services WHERE is_active=1"); while($s=$svcs->fetch_assoc()):?>
-<li><a class="dropdown-item" href="service.php?slug=<?=$s['slug']?>"><?=htmlspecialchars($s['title'])?></a></li>
+<li><a class="dropdown-item" href="/hizmet/<?=$s['slug']?>"><?=htmlspecialchars($s['title'])?></a></li>
 <?php endwhile;?></ul></li>
-<li class="nav-item"><a class="nav-link" href="hakkimizda.php">Hakkımızda</a></li>
-<li class="nav-item"><a class="nav-link" href="iletisim.php">İletişim</a></li>
+<li class="nav-item"><a class="nav-link" href="/hakkimizda">Hakkımızda</a></li>
+<li class="nav-item"><a class="nav-link" href="/iletisim">İletişim</a></li>
 <li class="nav-item"><a class="nav-link" href="tel:<?=$settings['phone']?>"><i class="fas fa-phone"></i> <?=$settings['phone']?></a></li>
 </ul></div></div></nav>
 <div id="heroSlider" class="carousel slide" data-bs-ride="carousel">
@@ -41,7 +41,7 @@ $tabs = $conn->query("SELECT * FROM tabs WHERE is_active=1 ORDER BY display_orde
 <div class="row g-4"><?php while($srv=$services->fetch_assoc()):?>
 <div class="col-lg-4 col-md-6"><div class="service-card"><i class="<?=$srv['icon']?> fa-4x"></i>
 <h3><?=htmlspecialchars($srv['title'])?></h3><p><?=htmlspecialchars($srv['short_description'])?></p>
-<a href="service.php?slug=<?=$srv['slug']?>" class="btn btn-outline-primary">Detaylı Bilgi</a></div></div>
+<a href="/hizmet/<?=$srv['slug']?>" class="btn btn-outline-primary">Detaylı Bilgi</a></div></div>
 <?php endwhile;?></div></div></section>
 <section class="cta-section"><div class="container text-center"><h2>Acil Yol Yardım mı Lazım?</h2>
 <div class="phone-number"><a href="tel:<?=$settings['phone']?>" style="color:inherit;"><i class="fas fa-phone-alt"></i> <?=$settings['phone']?></a></div>
@@ -50,7 +50,7 @@ $tabs = $conn->query("SELECT * FROM tabs WHERE is_active=1 ORDER BY display_orde
 <a href="tel:<?=$settings['phone']?>" class="sticky-btn phone-btn"><i class="fas fa-phone-alt"></i></a>
 <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a></div>
 <footer><div class="container"><div class="row"><div class="col-lg-4 mb-4"><h5><?=$settings['site_title']?></h5><p><?=$settings['site_description']?></p></div>
-<div class="col-lg-4 mb-4"><h5>Hızlı Linkler</h5><ul class="list-unstyled"><li><a href="index.php">Ana Sayfa</a></li><li><a href="hakkimizda.php">Hakkımızda</a></li><li><a href="iletisim.php">İletişim</a></li></ul></div>
+<div class="col-lg-4 mb-4"><h5>Hızlı Linkler</h5><ul class="list-unstyled"><li><a href="/">Ana Sayfa</a></li><li><a href="/hakkimizda">Hakkımızda</a></li><li><a href="/iletisim">İletişim</a></li></ul></div>
 <div class="col-lg-4 mb-4"><h5>İletişim</h5><ul class="list-unstyled"><li><i class="fas fa-phone"></i> <a href="tel:<?=$settings['phone']?>"><?=$settings['phone']?></a></li>
 <li><i class="fas fa-map-marker-alt"></i> <?=$settings['address']?></li></ul></div></div></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

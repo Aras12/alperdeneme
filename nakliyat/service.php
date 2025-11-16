@@ -11,9 +11,9 @@ if (!$service) { header("Location: index.php"); exit; }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="styles.css"></head><body>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top"><div class="container">
-<a class="navbar-brand" href="index.php"><i class="fas fa-truck-pickup"></i> Adana Oto Çekici</a></div></nav>
+<a class="navbar-brand" href="/"><i class="fas fa-truck-pickup"></i> Adana Oto Çekici</a></div></nav>
 <div class="breadcrumb"><div class="container"><nav><ol class="breadcrumb mb-0">
-<li class="breadcrumb-item"><a href="index.php">Ana Sayfa</a></li>
+<li class="breadcrumb-item"><a href="/">Ana Sayfa</a></li>
 <li class="breadcrumb-item active"><?=$service['title']?></li></ol></nav></div></div>
 <section class="content-section"><div class="container"><div class="row"><div class="col-lg-8">
 <img src="<?=$service['image']?>" alt="<?=$service['title']?>" class="service-detail-img">

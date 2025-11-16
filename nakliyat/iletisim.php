@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="styles.css"></head><body>
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top"><div class="container">
-<a class="navbar-brand" href="index.php"><i class="fas fa-truck-pickup"></i> <?=$settings['site_title']?></a></div></nav>
+<a class="navbar-brand" href="/"><i class="fas fa-truck-pickup"></i> <?=$settings['site_title']?></a></div></nav>
 <section class="content-section"><div class="container"><h1 class="section-title text-center">İletişim</h1>
 <div class="row g-4">
 <div class="col-md-3"><div class="feature-box"><i class="fas fa-phone-alt"></i><h4>Telefon</h4>
