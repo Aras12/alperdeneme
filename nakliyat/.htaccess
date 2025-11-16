@@ -1,10 +1,10 @@
 # Adana Oto Çekici - SEF URL Configuration
 # Enable URL Rewriting
 RewriteEngine On
-RewriteBase /
+RewriteBase /nakliyat/
 
-# For subdirectory installation, change above to:
-# RewriteBase /nakliyat/
+# For root installation, change above to:
+# RewriteBase /
 
 # Remove trailing slash
 RewriteCond %{REQUEST_FILENAME} !-d
