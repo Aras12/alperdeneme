@@ -16,12 +16,33 @@ if ($conn->connect_error) {
 // Set charset
 $conn->set_charset("utf8mb4");
 
-// Auto-detect Base URL
-$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+// Auto-detect Base URL (works on any domain)
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+            (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+            ? "https" : "http";
 $host = $_SERVER['HTTP_HOST'];
+
+// Get base path - works for root or subdirectory installations
+$request_uri = $_SERVER['REQUEST_URI'];
 $script_name = $_SERVER['SCRIPT_NAME'];
-$base_path = str_replace('\\', '/', dirname(dirname($script_name)));
-$base_path = $base_path === '/' ? '' : $base_path;
+$base_path = '';
+
+// If in subdirectory (e.g., localhost/nakliyat/)
+if (strpos($script_name, '/nakliyat/') !== false) {
+    $base_path = '/nakliyat';
+}
+// If in admin folder, go up one level
+elseif (strpos($script_name, '/admin/') !== false) {
+    $base_path = rtrim(str_replace('/admin', '', dirname($script_name)), '/');
+}
+// Otherwise use parent directory of script
+else {
+    $base_path = rtrim(dirname($script_name), '/');
+}
+
+// Clean up base path
+$base_path = str_replace('\\', '/', $base_path);
+$base_path = ($base_path === '/' || $base_path === '') ? '' : $base_path;
 
 define('BASE_URL', $protocol . '://' . $host . $base_path . '/');
 define('ADMIN_URL', BASE_URL . 'admin/');

@@ -258,4 +258,74 @@ INSERT INTO `menus` (`title`, `url`, `target`, `icon`, `parent_id`, `display_ord
 ('Hakkımızda', '/hakkimizda', '_self', 'fas fa-info-circle', 0, 4, 1),
 ('İletişim', '/iletisim', '_self', 'fas fa-envelope', 0, 5, 1);
 
+-- --------------------------------------------------------
+
+-- Visitor Tracking Table
+CREATE TABLE `visitors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `visitor_id` varchar(64) NOT NULL,
+  `ip_address` varchar(45) NOT NULL,
+  `country` varchar(100) DEFAULT NULL,
+  `city` varchar(100) DEFAULT NULL,
+  `region` varchar(100) DEFAULT NULL,
+  `user_agent` text,
+  `device_type` varchar(20) DEFAULT NULL,
+  `device_brand` varchar(50) DEFAULT NULL,
+  `device_model` varchar(100) DEFAULT NULL,
+  `os` varchar(50) DEFAULT NULL,
+  `os_version` varchar(20) DEFAULT NULL,
+  `browser` varchar(50) DEFAULT NULL,
+  `browser_version` varchar(20) DEFAULT NULL,
+  `referrer` varchar(500) DEFAULT NULL,
+  `referrer_domain` varchar(255) DEFAULT NULL,
+  `landing_page` varchar(500) DEFAULT NULL,
+  `current_page` varchar(500) DEFAULT NULL,
+  `utm_source` varchar(100) DEFAULT NULL,
+  `utm_medium` varchar(100) DEFAULT NULL,
+  `utm_campaign` varchar(100) DEFAULT NULL,
+  `utm_term` varchar(255) DEFAULT NULL,
+  `utm_content` varchar(255) DEFAULT NULL,
+  `keyword` varchar(255) DEFAULT NULL,
+  `is_bot` tinyint(1) DEFAULT 0,
+  `is_mobile` tinyint(1) DEFAULT 0,
+  `is_tablet` tinyint(1) DEFAULT 0,
+  `session_duration` int(11) DEFAULT 0,
+  `page_views` int(11) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_seen` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `visitor_id` (`visitor_id`),
+  KEY `ip_address` (`ip_address`),
+  KEY `created_at` (`created_at`),
+  KEY `referrer_domain` (`referrer_domain`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+-- Blocked IPs Table
+CREATE TABLE `blocked_ips` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ip_address` varchar(45) NOT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `blocked_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `ip_address` (`ip_address`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+-- Page Views Table (for detailed tracking)
+CREATE TABLE `page_views` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `visitor_id` varchar(64) NOT NULL,
+  `page_url` varchar(500) NOT NULL,
+  `page_title` varchar(255) DEFAULT NULL,
+  `time_on_page` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `visitor_id` (`visitor_id`),
+  KEY `created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 COMMIT;

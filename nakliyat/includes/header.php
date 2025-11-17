@@ -1,3 +1,9 @@
+<?php
+// Track visitor (automatic tracking for analytics)
+if (file_exists(__DIR__ . '/../track-visitor.php')) {
+    require_once __DIR__ . '/../track-visitor.php';
+}
+?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
