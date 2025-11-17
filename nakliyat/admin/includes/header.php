@@ -165,6 +165,21 @@ requireLogin();
                 <span class="badge bg-warning"><?php echo $pending_comments['count']; ?></span>
                 <?php endif; ?>
             </a></li>
+            <li><a href="analytics.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'analytics.php' ? 'active' : ''; ?>">
+                <i class="fas fa-chart-line"></i> Analitik
+            </a></li>
+            <li><a href="visitors.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'visitors.php' ? 'active' : ''; ?>">
+                <i class="fas fa-users"></i> Ziyaretçiler
+            </a></li>
+            <li><a href="blocked-ips.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'blocked-ips.php' ? 'active' : ''; ?>">
+                <i class="fas fa-ban"></i> IP Engelleme
+                <?php
+                $blocked_count = $conn->query("SELECT COUNT(*) as count FROM blocked_ips")->fetch_assoc();
+                if ($blocked_count['count'] > 0):
+                ?>
+                <span class="badge bg-danger"><?php echo $blocked_count['count']; ?></span>
+                <?php endif; ?>
+            </a></li>
             <li><a href="messages.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'messages.php' ? 'active' : ''; ?>">
                 <i class="fas fa-envelope"></i> Mesajlar
                 <?php
