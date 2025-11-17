@@ -133,4 +133,11 @@ include 'includes/header.php';
     </div>
 </section>
 
+<!-- Comments Section -->
+<?php
+$comment_page_type = 'blog';
+$comment_page_id = $post['id'];
+include 'includes/comment-section.php';
+?>
+
 <?php include 'includes/footer.php'; ?>

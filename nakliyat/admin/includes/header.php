@@ -156,6 +156,15 @@ requireLogin();
             <li><a href="gallery.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'gallery.php' ? 'active' : ''; ?>">
                 <i class="fas fa-images"></i> Galeri
             </a></li>
+            <li><a href="comments.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'comments.php' ? 'active' : ''; ?>">
+                <i class="fas fa-star"></i> Yorumlar
+                <?php
+                $pending_comments = $conn->query("SELECT COUNT(*) as count FROM comments WHERE is_approved=0 AND is_verified=1")->fetch_assoc();
+                if ($pending_comments['count'] > 0):
+                ?>
+                <span class="badge bg-warning"><?php echo $pending_comments['count']; ?></span>
+                <?php endif; ?>
+            </a></li>
             <li><a href="messages.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'messages.php' ? 'active' : ''; ?>">
                 <i class="fas fa-envelope"></i> Mesajlar
                 <?php

@@ -283,4 +283,11 @@ if($gallery_items->num_rows > 0):
 </section>
 <?php endif; ?>
 
+<!-- Comments Section -->
+<?php
+$comment_page_type = 'homepage';
+$comment_page_id = 0;
+include 'includes/comment-section.php';
+?>
+
 <?php include 'includes/footer.php'; ?>
