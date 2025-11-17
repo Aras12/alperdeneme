@@ -207,6 +207,33 @@ INSERT INTO `settings` (`setting_key`, `setting_value`, `setting_group`) VALUES
 ('google_analytics', '', 'seo'),
 ('homepage_content', '<div class=\"row align-items-center mb-5\">\n<div class=\"col-lg-6\">\n<h1>Adana Acil Çekici - Hızlı ve Güvenilir Müdahale</h1>\n<p class=\"lead\">Acil durumlarda zaman her şeyden önemlidir. Adana acil çekici hizmeti olarak, 7/24 kesintisiz hizmet veren profesyonel ekibimizle yanınızdayız.</p>\n<p>Modern araç filomuz ve deneyimli operatörlerimizle, aracınızı güvenle istediğiniz noktaya taşıyoruz. Tüm Adana ve çevre ilçelerde hızlı müdahale garantisi veriyoruz.</p>\n</div>\n<div class=\"col-lg-6\">\n<img src=\"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800\" class=\"img-fluid rounded shadow\" alt=\"Adana Oto Çekici\">\n</div>\n</div>', 'content'),
 ('about_content', '<p>Adana ve çevresinde yıllardır kesintisiz hizmet veren profesyonel oto çekici firmamız, modern araç filosu ve deneyimli ekibiyle 7/24 acil yol yardım hizmeti sunmaktadır.</p>\n<p>Müşteri memnuniyetini ön planda tutan anlayışımızla, her türlü araç çekme ve yol yardım ihtiyacınızda yanınızdayız. Uygun fiyat garantisi ve hızlı müdahale ile sektörde fark yaratıyoruz.</p>\n<h3>Neden Bizi Tercih Etmelisiniz?</h3>\n<ul>\n<li>7/24 kesintisiz hizmet</li>\n<li>Modern ve bakımlı araç filosu</li>\n<li>Deneyimli ve profesyonel ekip</li>\n<li>Uygun fiyat garantisi</li>\n<li>Hızlı müdahale</li>\n<li>Güvenli taşıma</li>\n<li>Tüm Adana ve çevre ilçelere hizmet</li>\n</ul>', 'content'),
-('contact_info', '<div class=\"alert alert-info\">\n<i class=\"fas fa-info-circle me-2\"></i>\n<strong>Çalışma Saatlerimiz:</strong> 7 gün 24 saat hizmetinizdeyiz. Acil durumlarda hemen arayın!\n</div>', 'content');
+('contact_info', '<div class=\"alert alert-info\">\n<i class=\"fas fa-info-circle me-2\"></i>\n<strong>Çalışma Saatlerimiz:</strong> 7 gün 24 saat hizmetinizdeyiz. Acil durumlarda hemen arayın!\n</div>', 'content'),
+('site_logo', '', 'general'),
+('site_favicon', '', 'general'),
+('homepage_meta_title', 'Adana Oto Çekici | 7/24 Çekici Hizmeti | Acil Yol Yardım', 'seo'),
+('homepage_meta_description', 'Adana\'da 7/24 oto çekici hizmeti. Hızlı, güvenilir ve uygun fiyatlı acil yol yardım. Akü takviye, lastik değişimi, şehirler arası çekici.', 'seo'),
+('homepage_canonical_url', '', 'seo');
+
+-- --------------------------------------------------------
+
+-- Menus Table
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `target` varchar(20) DEFAULT '_self',
+  `icon` varchar(50) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT 0,
+  `display_order` int(11) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `menus` (`title`, `url`, `target`, `icon`, `parent_id`, `display_order`, `is_active`) VALUES
+('Ana Sayfa', '/', '_self', 'fas fa-home', 0, 1, 1),
+('Hizmetlerimiz', '#', '_self', 'fas fa-wrench', 0, 2, 1),
+('Hakkımızda', '/hakkimizda', '_self', 'fas fa-info-circle', 0, 3, 1),
+('İletişim', '/iletisim', '_self', 'fas fa-envelope', 0, 4, 1);
 
 COMMIT;

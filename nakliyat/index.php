@@ -3,8 +3,9 @@ require_once 'config/database.php';
 
 // Set page meta data
 $page_meta = [
-    'title' => 'Adana Oto Çekici | 7/24 Çekici Hizmeti | Acil Yol Yardım',
-    'description' => 'Adana\'da 7/24 oto çekici hizmeti. Hızlı, güvenilir ve uygun fiyatlı acil yol yardım.'
+    'title' => !empty($settings['homepage_meta_title']) ? $settings['homepage_meta_title'] : 'Adana Oto Çekici | 7/24 Çekici Hizmeti | Acil Yol Yardım',
+    'description' => !empty($settings['homepage_meta_description']) ? $settings['homepage_meta_description'] : 'Adana\'da 7/24 oto çekici hizmeti. Hızlı, güvenilir ve uygun fiyatlı acil yol yardım.',
+    'canonical' => !empty($settings['homepage_canonical_url']) ? $settings['homepage_canonical_url'] : ''
 ];
 
 $active_page = 'home';

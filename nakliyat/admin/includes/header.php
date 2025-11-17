@@ -150,6 +150,9 @@ requireLogin();
             <li><a href="tabs.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'tabs.php' ? 'active' : ''; ?>">
                 <i class="fas fa-th-large"></i> Tab İçerikleri
             </a></li>
+            <li><a href="menus.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'menus.php' ? 'active' : ''; ?>">
+                <i class="fas fa-bars"></i> Menü Yönetimi
+            </a></li>
             <li><a href="messages.php" class="<?php echo basename($_SERVER['PHP_SELF']) == 'messages.php' ? 'active' : ''; ?>">
                 <i class="fas fa-envelope"></i> Mesajlar
                 <?php
