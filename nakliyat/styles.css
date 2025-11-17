@@ -257,12 +257,35 @@ body {
     border-radius: 10px;
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
     margin-bottom: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.testimonial-card .stars {
+.testimonial-card .rating {
     color: var(--primary-yellow);
     font-size: 1.2rem;
     margin-bottom: 15px;
+}
+
+.testimonial-card .testimonial-text {
+    font-style: italic;
+    color: #555;
+    margin-bottom: 20px;
+    flex-grow: 1;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.testimonial-card .testimonial-author {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 2px solid var(--primary-yellow);
+}
+
+.testimonial-card .testimonial-author strong {
+    color: var(--primary-navy);
+    font-size: 1.1rem;
 }
 
 /* Sticky Buttons */
@@ -362,6 +385,19 @@ footer .social-links a {
 footer .social-links a:hover {
     background-color: var(--primary-yellow);
     color: var(--primary-navy);
+}
+
+.footer-bottom {
+    background-color: rgba(0,0,0,0.2);
+    padding: 15px 0;
+    margin-top: 30px;
+    border-top: 2px solid var(--primary-yellow);
+}
+
+.footer-bottom p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
 }
 
 /* Breadcrumb */
@@ -595,6 +631,249 @@ footer .social-links a:hover {
 
 .sidebar-contact p {
     color: var(--white);
+}
+
+/* Service Image */
+.service-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+    height: 200px;
+}
+
+.service-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover .service-image img {
+    transform: scale(1.1);
+}
+
+.service-content {
+    padding: 25px;
+}
+
+/* Blog Image */
+.blog-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+}
+
+.blog-content {
+    padding: 20px;
+}
+
+.blog-meta {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    gap: 5px;
+}
+
+.pagination .page-item .page-link {
+    border: 2px solid var(--primary-navy);
+    color: var(--primary-navy);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--primary-navy);
+    color: var(--white);
+}
+
+.pagination .page-item .page-link:hover {
+    background: var(--primary-navy);
+    color: var(--white);
+}
+
+/* CTA Box */
+.cta-box {
+    background: linear-gradient(135deg, var(--primary-navy) 0%, #283593 100%);
+    color: var(--white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.cta-box h3 {
+    color: var(--primary-yellow);
+    margin-bottom: 10px;
+}
+
+.cta-box p {
+    font-size: 1.1rem;
+}
+
+/* Announcement Banner */
+.announcement-banner {
+    background: linear-gradient(90deg, var(--primary-yellow) 0%, #ffed4e 100%);
+    padding: 15px 0;
+    overflow: hidden;
+    border-bottom: 3px solid var(--primary-navy);
+}
+
+.announcement-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    animation: slideIn 1.5s ease-in-out;
+}
+
+.announcement-content i {
+    color: var(--primary-navy);
+    font-size: 1.3rem;
+    animation: pulse 2s infinite;
+}
+
+.announcement-text {
+    color: var(--primary-navy);
+    font-weight: 600;
+    font-size: 1.05rem;
+    animation: marquee 20s linear infinite;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes marquee {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Gallery */
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    aspect-ratio: 1;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+/* Quote Form */
+.quote-form-container {
+    background: var(--white);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.quote-form .form-control,
+.quote-form .form-select {
+    border: 2px solid #e0e0e0;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.quote-form .form-control:focus,
+.quote-form .form-select:focus {
+    border-color: var(--primary-navy);
+    box-shadow: 0 0 0 0.2rem rgba(26, 35, 126, 0.1);
+}
+
+.quote-info .info-box {
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.quote-info .info-box:hover {
+    background: var(--primary-navy);
+    color: var(--white);
+    transform: translateY(-5px);
+}
+
+.quote-info .info-box i {
+    font-size: 2.5rem;
+    color: var(--primary-yellow);
+    margin-bottom: 15px;
+}
+
+.quote-info .info-box h5 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+/* Quote Button (Sticky) */
+.quote-btn-sticky {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 999;
+    background: var(--primary-yellow);
+    color: var(--primary-navy);
+    padding: 15px 10px;
+    border-radius: 10px 0 0 10px;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: -3px 3px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+}
+
+.quote-btn-sticky:hover {
+    right: 5px;
+    background: var(--primary-navy);
+    color: var(--primary-yellow);
+}
+
+.quote-btn-sticky i {
+    margin-bottom: 8px;
 }
 
 /* Responsive */

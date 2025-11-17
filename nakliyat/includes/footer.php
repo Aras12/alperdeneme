@@ -29,7 +29,19 @@
             </div>
         </div>
     </div>
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0"><?= $settings['copyright_text'] ?? '© 2024 Adana Oto Çekici. Tüm hakları saklıdır.' ?></p>
+            </div>
+        </div>
+    </div>
 </footer>
+
+<!-- Quote Button Sticky -->
+<a href="<?= BASE_URL ?>teklif-al" class="quote-btn-sticky">
+    <i class="fas fa-file-invoice-dollar"></i> TEKLİF AL
+</a>
 
 <!-- Sticky Buttons -->
 <div class="sticky-buttons">

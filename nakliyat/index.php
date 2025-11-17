@@ -57,6 +57,16 @@ include 'includes/header.php';
     </button>
 </div>
 
+<!-- Announcement Banner -->
+<?php if(!empty($settings['announcement_text'])): ?>
+<div class="announcement-banner">
+    <div class="announcement-content">
+        <i class="fas fa-bullhorn"></i>
+        <span class="announcement-text"><?= $settings['announcement_text'] ?></span>
+    </div>
+</div>
+<?php endif; ?>
+
 <!-- Intro Content Section -->
 <?php if(isset($settings['homepage_content']) && !empty($settings['homepage_content'])): ?>
 <section class="content-section">
@@ -245,5 +255,31 @@ include 'includes/header.php';
         </a>
     </div>
 </section>
+
+<!-- Gallery Section -->
+<?php
+$gallery_items = $conn->query("SELECT * FROM gallery WHERE is_active=1 ORDER BY display_order ASC LIMIT 6");
+if($gallery_items->num_rows > 0):
+?>
+<section class="content-section bg-light">
+    <div class="container">
+        <h2 class="section-title text-center">Galeri</h2>
+        <p class="text-center mb-5">Hizmetlerimizden ve çalışmalarımızdan kareler</p>
+        <div class="row g-3">
+            <?php while($item = $gallery_items->fetch_assoc()): ?>
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="gallery-item">
+                    <img src="<?= $item['image'] ?>"
+                         alt="<?= htmlspecialchars($item['alt_text']) ?>"
+                         class="img-fluid"
+                         data-bs-toggle="tooltip"
+                         title="<?= htmlspecialchars($item['description']) ?>">
+                </div>
+            </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
 
 <?php include 'includes/footer.php'; ?>

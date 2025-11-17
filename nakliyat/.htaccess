@@ -23,13 +23,21 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}\.php -f
 RewriteRule ^(.*)$ $1.php [L]
 
-# SEF URLs for services
-# /hizmet/aku-takviye → service.php?slug=aku-takviye
-RewriteRule ^hizmet/([a-z0-9-]+)/?$ service.php?slug=$1 [L,QSA]
+# SEF URLs for blog list page
+# /blog → blog-list.php
+RewriteRule ^blog/?$ blog-list.php [L,QSA]
 
-# SEF URLs for blog
+# SEF URLs for blog detail
 # /blog/cukurova-cekici → blog.php?slug=cukurova-cekici
 RewriteRule ^blog/([a-z0-9-]+)/?$ blog.php?slug=$1 [L,QSA]
+
+# SEF URLs for services list page
+# /hizmetler → hizmetler-list.php
+RewriteRule ^hizmetler/?$ hizmetler-list.php [L,QSA]
+
+# SEF URLs for service detail
+# /hizmet/aku-takviye → service.php?slug=aku-takviye
+RewriteRule ^hizmet/([a-z0-9-]+)/?$ service.php?slug=$1 [L,QSA]
 
 # Custom error pages (optional)
 # ErrorDocument 404 /nakliyat/404.php
