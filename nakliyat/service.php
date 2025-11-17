@@ -108,4 +108,11 @@ include 'includes/header.php';
     </div>
 </section>
 
+<!-- Comments Section -->
+<?php
+$comment_page_type = 'service';
+$comment_page_id = $service['id'];
+include 'includes/comment-section.php';
+?>
+
 <?php include 'includes/footer.php'; ?>

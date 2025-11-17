@@ -258,4 +258,32 @@ INSERT INTO `menus` (`title`, `url`, `target`, `icon`, `parent_id`, `display_ord
 ('Hakkımızda', '/hakkimizda', '_self', 'fas fa-info-circle', 0, 4, 1),
 ('İletişim', '/iletisim', '_self', 'fas fa-envelope', 0, 5, 1);
 
+-- --------------------------------------------------------
+
+-- Comments Table (User Reviews with Rating)
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `page_type` enum('homepage','blog','service') NOT NULL,
+  `page_id` int(11) DEFAULT 0,
+  `name` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `comment` text NOT NULL,
+  `rating` tinyint(1) DEFAULT 5,
+  `is_approved` tinyint(1) DEFAULT 0,
+  `is_verified` tinyint(1) DEFAULT 0,
+  `verification_token` varchar(64) DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `page_type` (`page_type`,`page_id`),
+  KEY `is_approved` (`is_approved`),
+  KEY `is_verified` (`is_verified`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample approved comments
+INSERT INTO `comments` (`page_type`, `page_id`, `name`, `email`, `comment`, `rating`, `is_approved`, `is_verified`) VALUES
+('homepage', 0, 'Mehmet Yılmaz', 'mehmet@example.com', 'Çok hızlı ve güvenilir bir hizmet. Aracım arıza yapınca 20 dakika içinde geldiler. Kesinlikle tavsiye ederim!', 5, 1, 1),
+('homepage', 0, 'Ayşe Demir', 'ayse@example.com', 'Profesyonel ekip, uygun fiyat. Her şey için teşekkürler.', 5, 1, 1),
+('homepage', 0, 'Ali Kaya', 'ali@example.com', 'Gece yarısı arıza yaptık, hemen yardıma geldiler. Çok memnun kaldık.', 4, 1, 1);
+
 COMMIT;
