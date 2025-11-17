@@ -234,4 +234,28 @@ INSERT INTO `gallery` (`image`, `alt_text`, `description`, `display_order`, `is_
 ('https://images.unsplash.com/photo-1485291571150-772bcfc10da5?w=800', 'Profesyonel ekip', 'Deneyimli ve uzman ekibimiz', 5, 1),
 ('https://images.unsplash.com/photo-1550355191-aa8a80b41353?w=800', 'Hızlı müdahale', 'Her an yanınızdayız', 6, 1);
 
+-- --------------------------------------------------------
+
+-- Menus Table
+CREATE TABLE `menus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `target` varchar(20) DEFAULT '_self',
+  `icon` varchar(50) DEFAULT NULL,
+  `parent_id` int(11) DEFAULT 0,
+  `display_order` int(11) DEFAULT 0,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Sample menu items
+INSERT INTO `menus` (`title`, `url`, `target`, `icon`, `parent_id`, `display_order`, `is_active`) VALUES
+('Ana Sayfa', '/', '_self', 'fas fa-home', 0, 1, 1),
+('Hizmetlerimiz', '#', '_self', 'fas fa-wrench', 0, 2, 1),
+('Blog', '/blog', '_self', 'fas fa-newspaper', 0, 3, 1),
+('Hakkımızda', '/hakkimizda', '_self', 'fas fa-info-circle', 0, 4, 1),
+('İletişim', '/iletisim', '_self', 'fas fa-envelope', 0, 5, 1);
+
 COMMIT;
