@@ -1,0 +1,165 @@
+====================================
+ADANA OTO ÇEKİCİ - CMS KURULUM KILAVUZU
+====================================
+
+📦 Dosya: adana-oto-cekici-cms.zip
+
+🚀 KURULUM ADIMLARI
+===================
+
+1. ZIP DOSYASINI SUNUCUYA YÜKLE
+--------------------------------
+   - Hosting control panel (cPanel, Plesk, vs.) kullan
+   - Veya FTP ile dosyaları yükle
+   - public_html veya www klasörüne çıkar
+
+2. VERİTABANI OLUŞTUR
+--------------------
+   a) cPanel/phpMyAdmin'e gir
+   b) Yeni veritabanı oluştur (örnek: adana_cekici)
+   c) Veritabanı kullanıcısı oluştur ve şifre belirle
+   d) Kullanıcıyı veritabanına bağla (tüm yetkiler)
+   e) database.sql dosyasını import et
+
+3. VERİTABANI AYARLARI
+----------------------
+   config/database.php dosyasını düzenle:
+
+   define('DB_HOST', 'localhost');        // Genellikle localhost
+   define('DB_USER', 'VERITABANI_KULLANICISI');
+   define('DB_PASS', 'VERİTABANI_ŞİFRESİ');
+   define('DB_NAME', 'VERİTABANI_ADI');
+
+   BASE_URL ve ADMIN_URL ayarlarını güncelle:
+   define('BASE_URL', 'https://siteniz.com/');
+   define('ADMIN_URL', 'https://siteniz.com/admin/');
+
+4. .htaccess AYARLARI
+---------------------
+   Ana dizindeyse:
+   RewriteBase /
+
+   Alt klasördeyse (örnek: /nakliyat/):
+   RewriteBase /nakliyat/
+
+5. KLASÖR İZİNLERİ
+------------------
+   uploads/ klasörüne yazma izni ver:
+   chmod 755 uploads/
+   (veya cPanel'den File Manager ile 755 yap)
+
+6. ADMİN PANELİNE ERİŞ
+----------------------
+   URL: https://siteniz.com/admin/
+   Kullanıcı: admin
+   Şifre: admin123
+
+   ⚠️ GÜVENLİK: İlk girişte şifrenizi değiştirin!
+
+🎯 SEF URL YAPISI
+=================
+.htaccess ile temiz URL'ler aktif:
+
+✅ Ana Sayfa: siteniz.com/
+✅ Hizmet: siteniz.com/hizmet/aku-takviye
+✅ Blog: siteniz.com/blog/cukurova-cekici
+✅ Hakkımızda: siteniz.com/hakkimizda
+✅ İletişim: siteniz.com/iletisim
+
+📊 DOSYA YAPISI
+===============
+nakliyat/
+├── admin/              → Admin panel
+│   ├── login.php
+│   ├── index.php      → Dashboard
+│   ├── slider.php     → Slider yönetimi
+│   ├── services.php   → Hizmetler
+│   ├── blog.php       → Blog
+│   ├── faq.php        → SSS
+│   ├── testimonials.php → Yorumlar
+│   ├── tabs.php       → Tab içerikleri
+│   ├── messages.php   → Mesajlar
+│   └── settings.php   → Ayarlar
+├── config/
+│   └── database.php   → DB bağlantısı
+├── uploads/           → Yüklenen dosyalar
+├── index.php          → Ana sayfa
+├── service.php        → Hizmet detay
+├── blog.php           → Blog detay
+├── hakkimizda.php     → Hakkımızda
+├── iletisim.php       → İletişim (form çalışır!)
+├── database.sql       → Veritabanı şeması
+├── .htaccess          → SEF URL ayarları
+└── README.md          → Detaylı döküman
+
+🔐 GÜVENLİK ÖNERİLERİ
+=====================
+1. Admin şifresini değiştir:
+   - Admin panel → Profil/Ayarlar
+   - Veya database'de admins tablosundan
+
+2. database.sql dosyasını sil (kurulum sonrası)
+
+3. config/ klasörünü dışarıdan erişime kapat:
+   .htaccess ile zaten korumalı
+
+4. SSL sertifikası aktif et (HTTPS)
+
+5. PHP error_reporting'i kapat (production'da):
+   php_flag display_errors Off
+
+📞 VARSAYILAN BİLGİLER
+======================
+Admin Kullanıcı: admin
+Admin Şifre: admin123
+Telefon: 0537 409 2406
+WhatsApp: 905374092406
+
+💡 HIZLI BAŞLANGIÇ
+==================
+1. Admin panele gir
+2. "Site Ayarları"ndan telefon, adres güncelle
+3. "Slider Yönetimi"nden slider'ları kontrol et
+4. "Hizmetler"den içerikleri düzenle
+5. "Blog"dan yazıları düzenle
+6. "Mesajlar"dan gelen mesajları görüntüle
+
+🛠️ SORUN GİDERME
+=================
+✗ Veritabanı bağlantı hatası:
+  → config/database.php'deki bilgileri kontrol et
+
+✗ 404 hatası (sayfa bulunamadı):
+  → .htaccess dosyasını kontrol et
+  → RewriteBase ayarını güncelle
+
+✗ Admin panele giremiyorum:
+  → database.sql'i doğru import ettiğinden emin ol
+  → Varsayılan: admin / admin123
+
+✗ İletişim formu çalışmıyor:
+  → Veritabanı bağlantısını kontrol et
+  → messages tablosunun olduğundan emin ol
+
+✗ CSS yüklenmiyor:
+  → Dosya yollarını kontrol et
+  → styles.css dosyasının varlığını kontrol et
+
+📧 DESTEK
+=========
+Her şey hazır! Sadece:
+1. Veritabanını oluştur ve import et
+2. config/database.php'yi ayarla
+3. .htaccess'i kontrol et
+4. Hazır!
+
+🎉 BAŞARILAR!
+=============
+Siteniz kullanıma hazır. Admin panelden tüm içerikleri
+yönetebilir, yeni hizmet/blog ekleyebilir, mesajları
+görüntüleyebilirsiniz.
+
+---
+Geliştirici: Claude AI
+Versiyon: 1.0
+Tarih: 2024
