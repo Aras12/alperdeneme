@@ -2,19 +2,30 @@
 $page_title = 'Blog Yönetimi';
 include 'includes/header.php';
 
+// Display session messages
+if (isset($_SESSION['success_message'])) {
+    echo alert($_SESSION['success_message'], 'success');
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    echo alert($_SESSION['error_message'], 'danger');
+    unset($_SESSION['error_message']);
+}
+
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $conn->query("DELETE FROM blog_posts WHERE id = " . (int)$_GET['id']);
-    echo alert('Blog yazısı silindi!', 'success');
+    $_SESSION['success_message'] = 'Blog yazısı silindi!';
+    redirect('blog.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $title = sanitize($_POST['title']);
     $slug = sanitize($_POST['slug']);
-    $excerpt = sanitize($_POST['excerpt']);
-    $content = $_POST['content'];
-    $meta_title = sanitize($_POST['meta_title']);
-    $meta_description = sanitize($_POST['meta_description']);
+    $excerpt = $conn->real_escape_string(trim($_POST['excerpt']));
+    $content = $conn->real_escape_string($_POST['content']);
+    $meta_title = $conn->real_escape_string(trim($_POST['meta_title']));
+    $meta_description = $conn->real_escape_string(trim($_POST['meta_description']));
     $meta_keywords = sanitize($_POST['meta_keywords']);
     $canonical_url = sanitize($_POST['canonical_url']);
     $is_active = isset($_POST['is_active']) ? 1 : 0;
@@ -35,7 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($conn->query($sql)) {
-        echo alert($id > 0 ? 'Blog güncellendi!' : 'Blog eklendi!', 'success');
+        $_SESSION['success_message'] = $id > 0 ? 'Blog güncellendi!' : 'Blog eklendi!';
+        redirect('blog.php');
+    } else {
+        $_SESSION['error_message'] = 'Hata: ' . $conn->error;
     }
 }
 

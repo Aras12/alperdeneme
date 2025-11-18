@@ -2,17 +2,28 @@
 $page_title = 'Galeri Yönetimi';
 include 'includes/header.php';
 
+// Display session messages
+if (isset($_SESSION['success_message'])) {
+    echo alert($_SESSION['success_message'], 'success');
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    echo alert($_SESSION['error_message'], 'danger');
+    unset($_SESSION['error_message']);
+}
+
 // Handle delete
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $conn->query("DELETE FROM gallery WHERE id = " . (int)$_GET['id']);
-    echo alert('Görsel silindi!', 'success');
+    $_SESSION['success_message'] = 'Görsel silindi!';
+    redirect('gallery.php');
 }
 
 // Handle save
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $alt_text = sanitize($_POST['alt_text']);
-    $description = sanitize($_POST['description']);
+    $description = $conn->real_escape_string($_POST['description']);
     $display_order = (int)$_POST['display_order'];
     $is_active = isset($_POST['is_active']) ? 1 : 0;
 
@@ -34,7 +45,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($conn->query($sql)) {
-        echo alert($id > 0 ? 'Görsel güncellendi!' : 'Görsel eklendi!', 'success');
+        $_SESSION['success_message'] = $id > 0 ? 'Görsel güncellendi!' : 'Görsel eklendi!';
+        redirect('gallery.php');
+    } else {
+        $_SESSION['error_message'] = 'Hata: ' . $conn->error;
     }
 }
 

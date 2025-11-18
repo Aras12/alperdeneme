@@ -2,6 +2,16 @@
 $page_title = 'Hizmetler';
 include 'includes/header.php';
 
+// Display session messages
+if (isset($_SESSION['success_message'])) {
+    echo alert($_SESSION['success_message'], 'success');
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    echo alert($_SESSION['error_message'], 'danger');
+    unset($_SESSION['error_message']);
+}
+
 // Handle delete
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $conn->query("DELETE FROM services WHERE id = " . (int)$_GET['id']);
@@ -13,11 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $title = sanitize($_POST['title']);
     $slug = sanitize($_POST['slug']);
-    $short_description = sanitize($_POST['short_description']);
-    $content = $_POST['content'];
+    $short_description = $conn->real_escape_string(trim($_POST['short_description']));
+    $content = $conn->real_escape_string($_POST['content']);
     $icon = sanitize($_POST['icon']);
-    $meta_title = sanitize($_POST['meta_title']);
-    $meta_description = sanitize($_POST['meta_description']);
+    $meta_title = $conn->real_escape_string(trim($_POST['meta_title']));
+    $meta_description = $conn->real_escape_string(trim($_POST['meta_description']));
     $meta_keywords = sanitize($_POST['meta_keywords']);
     $canonical_url = sanitize($_POST['canonical_url']);
     $display_order = (int)$_POST['display_order'];
@@ -45,7 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($conn->query($sql)) {
-        echo alert($id > 0 ? 'Hizmet güncellendi!' : 'Hizmet eklendi!', 'success');
+        $_SESSION['success_message'] = $id > 0 ? 'Hizmet güncellendi!' : 'Hizmet eklendi!';
+        redirect('services.php');
+    } else {
+        $_SESSION['error_message'] = 'Hata: ' . $conn->error;
     }
 }
 

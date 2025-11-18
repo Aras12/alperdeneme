@@ -2,17 +2,28 @@
 $page_title = 'Slider Yönetimi';
 include 'includes/header.php';
 
+// Display session messages
+if (isset($_SESSION['success_message'])) {
+    echo alert($_SESSION['success_message'], 'success');
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    echo alert($_SESSION['error_message'], 'danger');
+    unset($_SESSION['error_message']);
+}
+
 // Handle actions
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $id = (int)$_GET['id'];
     $conn->query("DELETE FROM sliders WHERE id = $id");
-    echo alert('Slider başarıyla silindi!', 'success');
+    $_SESSION['success_message'] = 'Slider silindi!';
+    redirect('slider.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
     $title = sanitize($_POST['title']);
-    $description = sanitize($_POST['description']);
+    $description = $conn->real_escape_string($_POST['description']);
     $button_text = sanitize($_POST['button_text']);
     $button_link = sanitize($_POST['button_link']);
     $display_order = (int)$_POST['display_order'];
@@ -39,7 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     if ($conn->query($sql)) {
-        echo alert($id > 0 ? 'Slider güncellendi!' : 'Slider eklendi!', 'success');
+        $_SESSION['success_message'] = $id > 0 ? 'Slider güncellendi!' : 'Slider eklendi!';
+        redirect('slider.php');
+    } else {
+        $_SESSION['error_message'] = 'Hata: ' . $conn->error;
     }
 }
 

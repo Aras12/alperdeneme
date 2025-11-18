@@ -3,11 +3,16 @@ $page_title = 'Site Ayarları';
 include 'includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Track if files were uploaded
+    $logo_uploaded = false;
+    $favicon_uploaded = false;
+
     // Handle logo upload
     if (isset($_FILES['logo_file']) && $_FILES['logo_file']['error'] === UPLOAD_ERR_OK) {
         $uploaded = uploadImage($_FILES['logo_file'], 'logo');
         if ($uploaded) {
             $conn->query("UPDATE settings SET setting_value='$uploaded' WHERE setting_key='site_logo'");
+            $logo_uploaded = true;
         }
     }
 
@@ -16,18 +21,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $uploaded = uploadImage($_FILES['favicon_file'], 'favicon');
         if ($uploaded) {
             $conn->query("UPDATE settings SET setting_value='$uploaded' WHERE setting_key='site_favicon'");
+            $favicon_uploaded = true;
         }
     }
 
     // Handle other settings
     foreach ($_POST as $key => $value) {
-        if ($key != 'submit') {
+        // Skip submit button and file upload fields when files were uploaded
+        if ($key == 'submit') continue;
+        if ($key == 'site_logo' && $logo_uploaded) continue;
+        if ($key == 'site_favicon' && $favicon_uploaded) continue;
+
+        // Use real_escape_string for HTML content fields
+        if (in_array($key, ['homepage_content', 'about_content', 'contact_info', 'google_analytics'])) {
+            $value = $conn->real_escape_string($value);
+        } else {
             $value = sanitize($value);
-            $conn->query("UPDATE settings SET setting_value='$value' WHERE setting_key='$key'");
         }
+        $conn->query("UPDATE settings SET setting_value='$value' WHERE setting_key='$key'");
     }
-    echo alert('Ayarlar kaydedildi!', 'success');
-    $settings = getSettings();
+
+    $_SESSION['success_message'] = 'Ayarlar kaydedildi!';
+    redirect('settings.php');
+}
+
+// Display session messages
+if (isset($_SESSION['success_message'])) {
+    echo alert($_SESSION['success_message'], 'success');
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    echo alert($_SESSION['error_message'], 'danger');
+    unset($_SESSION['error_message']);
 }
 ?>
 
